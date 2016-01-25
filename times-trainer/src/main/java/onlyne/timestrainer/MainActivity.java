@@ -26,21 +26,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
-        Button submitButton = (Button) findViewById(R.id.submit);
-        submitButton.setOnClickListener(new Button.OnClickListener() {
+        findViewById(R.id.submit).setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 doEvaluateAnswer();
             }
         });
 
         multiplicationsQueue = new LinkedList<>();
-        generateNewQuestion(
-                (TextView) findViewById(R.id.multiplicand),
-                (TextView) findViewById(R.id.multiplier));
-
+        displayNewQuestion();
         timerStart = now();
     }
 
@@ -50,17 +45,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void doEvaluateAnswer() {
         incrementAttempts();
-
-        long timeTakenInMillis = now() - timerStart;
-
-        TextView multiplicandTV = (TextView) findViewById(R.id.multiplicand);
-        TextView multiplierTV = (TextView) findViewById(R.id.multiplier);
-        EditText answerET = (EditText) findViewById(R.id.answer);
-
-        recordAnswer(multiplicandTV, multiplierTV, answerET, timeTakenInMillis);
-
-        generateNewQuestion(multiplicandTV, multiplierTV);
-        clearAnswerForm(answerET);
+        storeAnswer();
+        displayNewQuestion();
     }
 
     private void incrementAttempts() {
@@ -69,25 +55,29 @@ public class MainActivity extends AppCompatActivity {
         attemptsTV.setText(Integer.toString(attempts));
     }
 
-    private void clearAnswerForm(EditText answerET) {
-        answerET.setText("");
+    private void clearAnswerForm() {
+        ((EditText) findViewById(R.id.answer)).setText("");
     }
 
-    private void recordAnswer(TextView multiplicandTV, TextView multiplierTV, EditText answerET, long timeTakenInMillis) {
-        int multiplicand = Integer.valueOf(multiplicandTV.getText().toString());
-        int multiplier = Integer.valueOf(multiplierTV.getText().toString());
-        int answer = Integer.valueOf(answerET.getText().toString());
+    private void storeAnswer() {
+        long timeTakenInMillis = now() - timerStart;
+        int multiplicand = Integer.valueOf(((TextView) findViewById(R.id.multiplicand)).getText().toString());
+        int multiplier = Integer.valueOf(((TextView) findViewById(R.id.multiplier)).getText().toString());
+        int answer = Integer.valueOf(((EditText) findViewById(R.id.answer)).getText().toString());
+
         if (multiplicand * multiplier == answer) {
             score++;
             TextView scoreTV = (TextView) findViewById(R.id.score);
             scoreTV.setText(Integer.toString(score));
         }
+
         multiplicationsQueue.add(new Multiplication(multiplicand, multiplier, answer, timeTakenInMillis));
     }
 
-    private void generateNewQuestion(TextView multiplicandTV, TextView multiplierTV) {
-        multiplicandTV.setText(intToString(roll(12)));
-        multiplierTV.setText(intToString(roll(12)));
+    private void displayNewQuestion() {
+        ((TextView) findViewById(R.id.multiplicand)).setText(intToString(roll(12)));
+        ((TextView) findViewById(R.id.multiplier)).setText(intToString(roll(12)));
+        clearAnswerForm();
     }
 
     private String intToString(int roll) {
