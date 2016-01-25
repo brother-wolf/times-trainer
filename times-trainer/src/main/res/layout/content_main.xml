@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="onlyne.timestrainer.MainActivity"
+    tools:showIn="@layout/activity_main">
+
+    <TextView
+        android:id="@+id/score_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:text="Score: " />
+    <TextView
+        android:id="@+id/score"
+        android:layout_toRightOf="@id/score_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:text="0" />
+    <TextView
+        android:id="@+id/of"
+        android:layout_toRightOf="@id/score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:text=" of " />
+    <TextView
+        android:id="@+id/attempts"
+        android:layout_toRightOf="@id/of"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:text="0" />
+    <TextView
+        android:id="@+id/gap"
+        android:layout_below="@id/score_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:text=" " />
+    <TextView
+        android:id="@+id/multiplicand"
+        android:layout_below="@id/gap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:text="12" />
+    <TextView
+        android:id="@+id/times"
+        android:layout_toRightOf="@+id/multiplicand"
+        android:layout_below="@id/gap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:text=" x " />
+    <TextView
+        android:id="@+id/multiplier"
+        android:layout_toRightOf="@+id/times"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/gap"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:text="5" />
+    <TextView
+        android:id="@+id/equals"
+        android:layout_toRightOf="@+id/multiplier"
+        android:layout_below="@id/gap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:text=" = " />
+    <EditText
+        android:id="@+id/answer"
+        android:layout_toRightOf="@+id/equals"
+        android:layout_below="@id/gap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:width="120dp"
+        android:height="35dp"
+        android:background="@drawable/answer_border"
+        android:numeric="integer"/>
+    <TextView
+        android:id="@+id/space"
+        android:layout_toRightOf="@+id/answer"
+        android:layout_below="@id/gap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:text=" " />
+    <Button
+        android:id="@+id/submit"
+        android:layout_toRightOf="@+id/space"
+        android:layout_below="@id/gap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"/>
+
+</RelativeLayout>
