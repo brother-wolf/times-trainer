@@ -61,9 +61,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void storeAnswer() {
         long timeTakenInMillis = now() - timerStart;
-        int multiplicand = Integer.valueOf(((TextView) findViewById(R.id.multiplicand)).getText().toString());
-        int multiplier = Integer.valueOf(((TextView) findViewById(R.id.multiplier)).getText().toString());
-        int answer = Integer.valueOf(((EditText) findViewById(R.id.answer)).getText().toString());
+        int multiplicand = getTextFieldAsInteger(R.id.multiplicand);
+        int multiplier = getTextFieldAsInteger(R.id.multiplier);
+        int answer = getTextFieldAsInteger(R.id.answer);
 
         if (multiplicand * multiplier == answer) {
             score++;
@@ -74,9 +74,17 @@ public class MainActivity extends AppCompatActivity {
         multiplicationsQueue.add(new Multiplication(multiplicand, multiplier, answer, timeTakenInMillis));
     }
 
+    private Integer getTextFieldAsInteger(int textFieldId) {
+        return Integer.valueOf(((TextView) findViewById(textFieldId)).getText().toString());
+    }
+
+    private void setTextFieldFromInteger(int textFieldId, int value) {
+        ((TextView) findViewById(textFieldId)).setText(intToString(value));
+    }
+
     private void displayNewQuestion() {
-        ((TextView) findViewById(R.id.multiplicand)).setText(intToString(roll(12)));
-        ((TextView) findViewById(R.id.multiplier)).setText(intToString(roll(12)));
+        setTextFieldFromInteger(R.id.multiplicand, roll(12));
+        setTextFieldFromInteger(R.id.multiplier, roll(12));
         clearAnswerForm();
     }
 
