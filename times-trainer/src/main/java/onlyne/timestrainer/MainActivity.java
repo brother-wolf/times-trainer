@@ -18,8 +18,9 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
     private int score = 0;
     private int attempts = 0;
-    private Random dice = new Random(new Date().getTime());
+    private Random dice = new Random(now());
     private Queue<Multiplication> multiplicationsQueue;
+    private long timerStart = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,16 +41,23 @@ public class MainActivity extends AppCompatActivity {
                 (TextView) findViewById(R.id.multiplicand),
                 (TextView) findViewById(R.id.multiplier));
 
+        timerStart = now();
+    }
+
+    private long now() {
+        return new Date().getTime();
     }
 
     private void doEvaluateAnswer() {
         incrementAttempts();
 
+        long timeTakenInMillis = now() - timerStart;
+
         TextView multiplicandTV = (TextView) findViewById(R.id.multiplicand);
         TextView multiplierTV = (TextView) findViewById(R.id.multiplier);
         EditText answerET = (EditText) findViewById(R.id.answer);
 
-        recordAnswer(multiplicandTV, multiplierTV, answerET);
+        recordAnswer(multiplicandTV, multiplierTV, answerET, timeTakenInMillis);
 
         generateNewQuestion(multiplicandTV, multiplierTV);
         clearAnswerForm(answerET);
@@ -65,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         answerET.setText("");
     }
 
-    private void recordAnswer(TextView multiplicandTV, TextView multiplierTV, EditText answerET) {
+    private void recordAnswer(TextView multiplicandTV, TextView multiplierTV, EditText answerET, long timeTakenInMillis) {
         int multiplicand = Integer.valueOf(multiplicandTV.getText().toString());
         int multiplier = Integer.valueOf(multiplierTV.getText().toString());
         int answer = Integer.valueOf(answerET.getText().toString());
@@ -74,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
             TextView scoreTV = (TextView) findViewById(R.id.score);
             scoreTV.setText(Integer.toString(score));
         }
-        multiplicationsQueue.add(new Multiplication(multiplicand, multiplier, answer));
+        multiplicationsQueue.add(new Multiplication(multiplicand, multiplier, answer, timeTakenInMillis));
     }
 
     private void generateNewQuestion(TextView multiplicandTV, TextView multiplierTV) {
