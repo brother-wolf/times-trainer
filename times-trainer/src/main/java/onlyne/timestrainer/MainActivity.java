@@ -1,6 +1,7 @@
 package onlyne.timestrainer;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -36,7 +37,46 @@ public class MainActivity extends AppCompatActivity {
 
         multiplicationsQueue = new LinkedList<>();
         displayNewQuestion();
-        timerStart = now();
+        mHandler = new Handler();
+        startRepeatingTask();
+    }
+
+    @Override
+    protected void onDestroy() {
+        stopRepeatingTask();
+        super.onDestroy();
+    }
+
+    private int milliSecondInterval = 1000;
+    private Handler mHandler;
+
+    Runnable mStatusChecker = new Runnable() {
+        @Override
+        public void run() {
+            updateClock();
+            mHandler.postDelayed(mStatusChecker, milliSecondInterval);
+        }
+    };
+
+    private void updateClock() {
+        TextView timerTV = (TextView) findViewById(R.id.timer);
+        timerTV.setText(getClockTime());
+    }
+
+
+    void startRepeatingTask() {
+        mStatusChecker.run();
+    }
+
+    void stopRepeatingTask() {
+        mHandler.removeCallbacks(mStatusChecker);
+    }
+
+    private String getClockTime() {
+        long timeInSeconds = (now() - timerStart) / 1000;
+        long seconds = timeInSeconds % 60;
+        long minutes = timeInSeconds / 60L;
+        return String.format("%02d:%02d", minutes, seconds);
     }
 
     private long now() {
@@ -86,6 +126,11 @@ public class MainActivity extends AppCompatActivity {
         setTextFieldFromInteger(R.id.multiplicand, roll(12));
         setTextFieldFromInteger(R.id.multiplier, roll(12));
         clearAnswerForm();
+        resetTimer();
+    }
+
+    private void resetTimer() {
+        timerStart = now();
     }
 
     private String intToString(int roll) {

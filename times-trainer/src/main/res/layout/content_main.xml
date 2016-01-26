@@ -16,67 +16,97 @@
         android:id="@+id/score_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:text="Score: " />
+        android:textSize="30sp"
+        android:layout_marginRight="1mm"
+        android:text="@string/score_title" />
     <TextView
         android:id="@+id/score"
         android:layout_toRightOf="@id/score_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:text="0" />
+        android:textSize="30sp"
+        android:text="@string/zero" />
     <TextView
         android:id="@+id/of"
         android:layout_toRightOf="@id/score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:text=" of " />
+        android:textSize="30sp"
+        android:layout_marginLeft="1mm"
+        android:layout_marginRight="1mm"
+        android:text="@string/of_label" />
     <TextView
         android:id="@+id/attempts"
         android:layout_toRightOf="@id/of"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:text="0" />
+        android:textSize="30sp"
+        android:text="@string/zero" />
     <TextView
-        android:id="@+id/gap"
+        android:id="@+id/small_gap"
         android:layout_below="@id/score_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
+        android:textSize="10sp"
+        android:text="@string/space" />
+    <TextView
+        android:id="@+id/timer_title"
+        android:layout_below="@+id/small_gap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:layout_marginRight="1mm"
+        android:text="@string/timer_title" />
+
+    <TextView
+        android:id="@+id/timer"
+        android:layout_toRightOf="@+id/timer_title"
+        android:layout_below="@+id/small_gap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp" />
+    <TextView
+        android:id="@+id/gap"
+        android:layout_below="@id/timer_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
         android:text=" " />
     <TextView
         android:id="@+id/multiplicand"
         android:layout_below="@id/gap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:text="12" />
+        android:textSize="30sp"
+        android:text="@string/space" />
     <TextView
         android:id="@+id/times"
         android:layout_toRightOf="@+id/multiplicand"
         android:layout_below="@id/gap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:text=" x " />
+        android:textSize="30sp"
+        android:layout_marginLeft="1mm"
+        android:layout_marginRight="1mm"
+        android:text="@string/multiplication_symbol" />
     <TextView
         android:id="@+id/multiplier"
         android:layout_toRightOf="@+id/times"
         android:layout_width="wrap_content"
         android:layout_below="@id/gap"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:text="5" />
+        android:textSize="30sp"
+        android:text="@string/space" />
     <TextView
         android:id="@+id/equals"
         android:layout_toRightOf="@+id/multiplier"
         android:layout_below="@id/gap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:text=" = " />
+        android:textSize="30sp"
+        android:layout_marginLeft="1mm"
+        android:layout_marginRight="1mm"
+        android:text="@string/equals_symbol" />
     <EditText
         android:id="@+id/answer"
         android:layout_toRightOf="@+id/equals"
