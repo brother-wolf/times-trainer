@@ -1,5 +1,6 @@
 package onlyne.timestrainer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +17,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity {
+public class MultiplicationActivity extends AppCompatActivity {
     private int score = 0;
     private int attempts = 0;
     private Random dice = new Random(now());
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.multiplication_input_frame);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         findViewById(R.id.submit).setOnClickListener(new Button.OnClickListener() {
@@ -150,16 +151,16 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.report:
+                Intent intent = new Intent(this, ReportActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_settings:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 }
