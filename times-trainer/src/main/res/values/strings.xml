@@ -8,4 +8,5 @@
     <string name="score_title">Score: </string>
     <string name="multiplication_symbol"> x </string>
     <string name="equals_symbol"> = </string>
+    <string name="report">Report</string>
 </resources>
