@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="onlyne.timestrainer.LoginScreenActivity"
+    tools:showIn="@layout/login_screen_frame">>
+
+    <TextView
+        android:id="@+id/user_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:height="35dp"
+        android:text="@string/username" />
+    <EditText
+        android:id="@+id/username"
+        android:layout_toRightOf="@id/user_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:width="120dp"
+        android:height="35dp"
+        android:background="@drawable/answer_border" />
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/submit"
+        android:textSize="20sp" />
+
+</LinearLayout>

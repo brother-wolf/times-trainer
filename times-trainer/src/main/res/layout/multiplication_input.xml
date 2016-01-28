@@ -71,7 +71,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30sp"
-        android:text=" " />
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:text="@string/space" />
     <TextView
         android:id="@+id/multiplicand"
         android:layout_below="@id/gap"
@@ -86,8 +88,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30sp"
-        android:layout_marginLeft="1mm"
-        android:layout_marginRight="1mm"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:text="@string/multiplication_symbol" />
     <TextView
         android:id="@+id/multiplier"
@@ -104,8 +106,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30sp"
-        android:layout_marginLeft="1mm"
-        android:layout_marginRight="1mm"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:text="@string/equals_symbol" />
     <EditText
         android:id="@+id/answer"
@@ -124,14 +126,16 @@
         android:layout_below="@id/gap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:text=" " />
+        android:textSize="30sp"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:text="@string/space" />
     <Button
         android:id="@+id/submit"
         android:layout_toRightOf="@+id/space"
         android:layout_below="@id/gap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Submit"/>
+        android:text="@string/submit"/>
 
 </RelativeLayout>

@@ -1,13 +1,9 @@
 package onlyne.timestrainer;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -17,7 +13,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 
-public class MultiplicationActivity extends AppCompatActivity {
+public class MultiplicationActivity extends AbstractTimesTrainerActivity {
     private int score = 0;
     private int attempts = 0;
     private Random dice = new Random(now());
@@ -140,27 +136,5 @@ public class MultiplicationActivity extends AppCompatActivity {
 
     private int roll(int sides) {
         return dice.nextInt(sides) + 1;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.report:
-                Intent intent = new Intent(this, ReportActivity.class);
-                startActivity(intent);
-                return true;
-            case R.id.action_settings:
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 }

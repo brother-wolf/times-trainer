@@ -9,4 +9,6 @@
     <string name="multiplication_symbol"> x </string>
     <string name="equals_symbol"> = </string>
     <string name="report">Report</string>
+    <string name="username">Username:</string>
+    <string name="submit">Submit</string>
 </resources>

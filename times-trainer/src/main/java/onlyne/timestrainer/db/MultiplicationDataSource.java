@@ -15,34 +15,34 @@ public class MultiplicationDataSource {
 
     // Database fields
     private SQLiteDatabase database;
-    private DBHelper dbHelper;
-    private String[] allColumns = {DBHelper.COLUMN_ID, DBHelper.COLUMN_MULTIPLICAND, DBHelper.COLUMN_MULTIPLIER, DBHelper.COLUMN_ANSWER};
+    private MultiplicationDBHelper multiplicationDbHelper;
+    private String[] allColumns = {MultiplicationDBHelper.COLUMN_ID, MultiplicationDBHelper.COLUMN_MULTIPLICAND, MultiplicationDBHelper.COLUMN_MULTIPLIER, MultiplicationDBHelper.COLUMN_ANSWER};
 
     public MultiplicationDataSource(Context context) {
-        dbHelper = new DBHelper(context);
+        multiplicationDbHelper = new MultiplicationDBHelper(context);
     }
 
     public void open() throws SQLException {
-        database = dbHelper.getWritableDatabase();
+        database = multiplicationDbHelper.getWritableDatabase();
     }
 
     public void close() {
-        dbHelper.close();
+        multiplicationDbHelper.close();
     }
 
-    public Multiplication createMultiplication(Multiplication Multiplication) {
+    public Multiplication createMultiplication(Multiplication multiplication) {
         ContentValues values = new ContentValues();
-        values.put(DBHelper.COLUMN_MULTIPLICAND, Multiplication.multiplicand);
-        values.put(DBHelper.COLUMN_MULTIPLIER, Multiplication.multiplier);
-        values.put(DBHelper.COLUMN_ANSWER, Multiplication.answer);
+        values.put(MultiplicationDBHelper.COLUMN_MULTIPLICAND, multiplication.multiplicand);
+        values.put(MultiplicationDBHelper.COLUMN_MULTIPLIER, multiplication.multiplier);
+        values.put(MultiplicationDBHelper.COLUMN_ANSWER, multiplication.answer);
 
-        long insertId = database.insert(DBHelper.TABLE_MULTIPLICATIONS, null, values);
+        long insertId = database.insert(MultiplicationDBHelper.TABLE_MULTIPLICATIONS, null, values);
 
-        Cursor cursor = database.query(
-                DBHelper.TABLE_MULTIPLICATIONS,
-                allColumns, DBHelper.COLUMN_ID + " = " + insertId, null, null, null, null);
+        Cursor cursor = database.query(MultiplicationDBHelper.TABLE_MULTIPLICATIONS,
+                allColumns, MultiplicationDBHelper.COLUMN_ID + " = " + insertId, null, null, null, null);
         cursor.moveToFirst();
         Multiplication newMultiplication = cursorToMultiplication(cursor);
+
         cursor.close();
         return newMultiplication;
     }
@@ -50,23 +50,23 @@ public class MultiplicationDataSource {
     public List<Multiplication> getAllMultiplications() {
 
 
-        List<Multiplication> Multiplications = new ArrayList<Multiplication>();
+        List<Multiplication> multiplications = new ArrayList<Multiplication>();
 
-        Cursor cursor = database.query(DBHelper.TABLE_MULTIPLICATIONS,
+        Cursor cursor = database.query(MultiplicationDBHelper.TABLE_MULTIPLICATIONS,
                 allColumns, null, null, null, null, null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            Multiplication Multiplication = cursorToMultiplication(cursor);
-            Multiplications.add(Multiplication);
+            Multiplication multiplication = cursorToMultiplication(cursor);
+            multiplications.add(multiplication);
             cursor.moveToNext();
         }
         // make sure to close the cursor
         cursor.close();
-        return Multiplications;
+        return multiplications;
     }
 
     private Multiplication cursorToMultiplication(Cursor cursor) {
-        return new Multiplication(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2));
+        return new Multiplication(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getLong(3));
     }
 }
