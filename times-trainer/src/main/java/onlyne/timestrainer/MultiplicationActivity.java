@@ -10,8 +10,11 @@ import android.widget.TextView;
 
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.Random;
+
+import onlyne.timestrainer.db.MultiplicationDataSource;
 
 public class MultiplicationActivity extends AbstractTimesTrainerActivity {
     private int score = 0;
@@ -19,6 +22,10 @@ public class MultiplicationActivity extends AbstractTimesTrainerActivity {
     private Random dice = new Random(now());
     private Queue<Multiplication> multiplicationsQueue;
     private long timerStart = 0;
+    private MultiplicationDataSource multiplicationDataSource;
+    private int MILLI_SECOND_INTERVAL = 1000;
+    private Handler timerHandler;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,16 +33,47 @@ public class MultiplicationActivity extends AbstractTimesTrainerActivity {
         setContentView(R.layout.multiplication_input_frame);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
+        Bundle extras = getIntent().getExtras();
+        username = extras.getString(LoginScreenActivity.USERNAME);
+        TextView nameTV = (TextView) findViewById(R.id.name);
+        nameTV.setText(username);
+
+        multiplicationDataSource = new MultiplicationDataSource(this);
+
         findViewById(R.id.submit).setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 doEvaluateAnswer();
             }
         });
 
+        List<Multiplication> savedMultiplications = multiplicationDataSource.getAllMultiplications(username);
         multiplicationsQueue = new LinkedList<>();
+        for (Multiplication multiplication : savedMultiplications) {
+            multiplicationsQueue.add(multiplication);
+        }
+
+        TextView scoreTV = (TextView) findViewById(R.id.score);
+        TextView attemptsTV = (TextView) findViewById(R.id.attempts);
+
+        score = countCorrectScores();
+        attempts = multiplicationsQueue.size();
+
+        scoreTV.setText(String.format("%d", score));
+        attemptsTV.setText(String.format("%d", attempts));
+
         displayNewQuestion();
-        mHandler = new Handler();
+        timerHandler = new Handler();
         startRepeatingTask();
+    }
+
+    private int countCorrectScores() {
+        int correct = 0;
+        for (Multiplication multiplication : multiplicationsQueue) {
+            if (multiplication.multiplicand * multiplication.multiplier == multiplication.answer) {
+                correct++;
+            }
+        }
+        return correct;
     }
 
     @Override
@@ -44,14 +82,12 @@ public class MultiplicationActivity extends AbstractTimesTrainerActivity {
         super.onDestroy();
     }
 
-    private int milliSecondInterval = 1000;
-    private Handler mHandler;
 
     Runnable mStatusChecker = new Runnable() {
         @Override
         public void run() {
             updateClock();
-            mHandler.postDelayed(mStatusChecker, milliSecondInterval);
+            timerHandler.postDelayed(mStatusChecker, MILLI_SECOND_INTERVAL);
         }
     };
 
@@ -66,7 +102,7 @@ public class MultiplicationActivity extends AbstractTimesTrainerActivity {
     }
 
     void stopRepeatingTask() {
-        mHandler.removeCallbacks(mStatusChecker);
+        timerHandler.removeCallbacks(mStatusChecker);
     }
 
     private String getClockTime() {
@@ -108,7 +144,9 @@ public class MultiplicationActivity extends AbstractTimesTrainerActivity {
             scoreTV.setText(Integer.toString(score));
         }
 
-        multiplicationsQueue.add(new Multiplication(multiplicand, multiplier, answer, timeTakenInMillis));
+        Multiplication multiplication = new Multiplication(multiplicand, multiplier, answer, timeTakenInMillis);
+        multiplicationsQueue.add(multiplication);
+        multiplicationDataSource.createMultiplication(multiplication, username);
     }
 
     private Integer getTextFieldAsInteger(int textFieldId) {

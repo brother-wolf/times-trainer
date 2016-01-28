@@ -12,6 +12,7 @@ import onlyne.timestrainer.db.UserDataSource;
 
 public class LoginScreenActivity extends AbstractTimesTrainerActivity {
 
+    public static final String USERNAME = "username";
     private UserDataSource userDataSource;
 
     @Override
@@ -46,6 +47,7 @@ public class LoginScreenActivity extends AbstractTimesTrainerActivity {
             Toast.makeText(LoginScreenActivity.this, "Using existing user", Toast.LENGTH_LONG).show();
         }
         Intent intent = new Intent(this, MultiplicationActivity.class);
+        intent.putExtra(USERNAME, username);
         startActivity(intent);
     }
 

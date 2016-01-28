@@ -12,61 +12,79 @@ import java.util.List;
 import onlyne.timestrainer.Multiplication;
 
 public class MultiplicationDataSource {
-
-    // Database fields
-    private SQLiteDatabase database;
     private MultiplicationDBHelper multiplicationDbHelper;
-    private String[] allColumns = {MultiplicationDBHelper.COLUMN_ID, MultiplicationDBHelper.COLUMN_MULTIPLICAND, MultiplicationDBHelper.COLUMN_MULTIPLIER, MultiplicationDBHelper.COLUMN_ANSWER};
 
     public MultiplicationDataSource(Context context) {
         multiplicationDbHelper = new MultiplicationDBHelper(context);
     }
 
-    public void open() throws SQLException {
-        database = multiplicationDbHelper.getWritableDatabase();
+    public SQLiteDatabase open() throws SQLException {
+        return multiplicationDbHelper.getWritableDatabase();
     }
 
     public void close() {
         multiplicationDbHelper.close();
     }
 
-    public Multiplication createMultiplication(Multiplication multiplication) {
+    public Multiplication createMultiplication(Multiplication multiplication, String username) {
+        SQLiteDatabase database = open();
         ContentValues values = new ContentValues();
+        values.put(MultiplicationDBHelper.COLUMN_USERNAME, username);
         values.put(MultiplicationDBHelper.COLUMN_MULTIPLICAND, multiplication.multiplicand);
         values.put(MultiplicationDBHelper.COLUMN_MULTIPLIER, multiplication.multiplier);
         values.put(MultiplicationDBHelper.COLUMN_ANSWER, multiplication.answer);
+        values.put(MultiplicationDBHelper.COLUMN_TIME_TAKEN_IN_MILLIS, multiplication.timeTakenInMillis);
 
         long insertId = database.insert(MultiplicationDBHelper.TABLE_MULTIPLICATIONS, null, values);
 
-        Cursor cursor = database.query(MultiplicationDBHelper.TABLE_MULTIPLICATIONS,
-                allColumns, MultiplicationDBHelper.COLUMN_ID + " = " + insertId, null, null, null, null);
-        cursor.moveToFirst();
-        Multiplication newMultiplication = cursorToMultiplication(cursor);
+        String whereClause = String.format("%s = %d", MultiplicationDBHelper.COLUMN_ID, insertId);
+
+        Cursor cursor = database.query(
+                MultiplicationDBHelper.TABLE_MULTIPLICATIONS,
+                MultiplicationDBHelper.ALL_COLUMNS,
+                whereClause, null, null, null, null);
+
+        Multiplication newMultiplication = null;
+
+        if (cursor.moveToFirst()) {
+            newMultiplication = cursorToMultiplication(cursor);
+        }
 
         cursor.close();
+        close();
         return newMultiplication;
     }
 
-    public List<Multiplication> getAllMultiplications() {
-
+    public List<Multiplication> getAllMultiplications(String username) {
+        SQLiteDatabase database = open();
 
         List<Multiplication> multiplications = new ArrayList<Multiplication>();
 
-        Cursor cursor = database.query(MultiplicationDBHelper.TABLE_MULTIPLICATIONS,
-                allColumns, null, null, null, null, null);
+        String whereClause = String.format("%s = \"%s\"", MultiplicationDBHelper.COLUMN_USERNAME, username);
 
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            Multiplication multiplication = cursorToMultiplication(cursor);
-            multiplications.add(multiplication);
-            cursor.moveToNext();
+        Cursor cursor = database.query(
+                MultiplicationDBHelper.TABLE_MULTIPLICATIONS,
+                MultiplicationDBHelper.ALL_COLUMNS,
+                whereClause,
+                null, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                Multiplication multiplication = cursorToMultiplication(cursor);
+                multiplications.add(multiplication);
+                cursor.moveToNext();
+            }
         }
-        // make sure to close the cursor
         cursor.close();
+        close();
         return multiplications;
     }
 
     private Multiplication cursorToMultiplication(Cursor cursor) {
-        return new Multiplication(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getLong(3));
+        return new Multiplication(
+                cursor.getInt(cursor.getColumnIndex(MultiplicationDBHelper.COLUMN_MULTIPLICAND)),
+                cursor.getInt(cursor.getColumnIndex(MultiplicationDBHelper.COLUMN_MULTIPLIER)),
+                cursor.getInt(cursor.getColumnIndex(MultiplicationDBHelper.COLUMN_ANSWER)),
+                cursor.getLong(cursor.getColumnIndex(MultiplicationDBHelper.COLUMN_TIME_TAKEN_IN_MILLIS)));
     }
 }

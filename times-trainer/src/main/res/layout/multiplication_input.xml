@@ -13,15 +13,31 @@
     tools:showIn="@layout/multiplication_input_frame">
 
     <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="35sp"
+        android:layout_marginRight="1dp"
+        android:text="" />
+    <TextView
+        android:id="@+id/name_gap"
+        android:layout_below="@id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:text="@string/space" />
+    <TextView
         android:id="@+id/score_title"
+        android:layout_below="@+id/name_gap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30sp"
-        android:layout_marginRight="1mm"
+        android:layout_marginRight="5dp"
         android:text="@string/score_title" />
     <TextView
         android:id="@+id/score"
         android:layout_toRightOf="@id/score_title"
+        android:layout_below="@+id/name_gap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30sp"
@@ -29,15 +45,17 @@
     <TextView
         android:id="@+id/of"
         android:layout_toRightOf="@id/score"
+        android:layout_below="@+id/name_gap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30sp"
-        android:layout_marginLeft="1mm"
-        android:layout_marginRight="1mm"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:text="@string/of_label" />
     <TextView
         android:id="@+id/attempts"
         android:layout_toRightOf="@id/of"
+        android:layout_below="@+id/name_gap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30sp"
@@ -47,7 +65,7 @@
         android:layout_below="@id/score_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:text="@string/space" />
     <TextView
         android:id="@+id/timer_title"
@@ -55,7 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30sp"
-        android:layout_marginRight="1mm"
+        android:layout_marginRight="5dp"
         android:text="@string/timer_title" />
 
     <TextView
