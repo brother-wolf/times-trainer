@@ -11,7 +11,10 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
+
+import onlyne.timestrainer.db.MultiplicationDataSource;
 
 /**
  * http://www.android-graphview.org/
@@ -19,13 +22,15 @@ import java.util.Queue;
 
 public class ReportActivity extends AbstractTimesTrainerActivity {
 
-
+    private MultiplicationDataSource multiplicationDataSource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.report_frame);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+
+        multiplicationDataSource = new MultiplicationDataSource(this);
 
         GraphView graph = (GraphView) findViewById(R.id.graph);
         graph.setTitle("Percentage correct answers by number");
@@ -34,7 +39,9 @@ public class ReportActivity extends AbstractTimesTrainerActivity {
         viewport.setXAxisBoundsManual(true);
         viewport.setMaxX(12);
 
-        GraphData graphData = new GraphData().tally(getData());
+        setUsername(getIntent().getExtras().getString(LoginScreenActivity.USERNAME));
+
+        GraphData graphData = new GraphData().tally(multiplicationDataSource.getAllMultiplications(getUsername()));
 
         LineGraphSeries<DataPoint> questions = graphData.asLineGraph(GraphData.DataType.QUESTIONS);
         questions.setColor(Color.RED);
@@ -57,8 +64,8 @@ public class ReportActivity extends AbstractTimesTrainerActivity {
         graph.addSeries(percentage);
     }
 
-    private Queue<Multiplication> getData() {
-        Queue<Multiplication> data = new LinkedList<>();
+    private List<Multiplication> getData() {
+        List<Multiplication> data = new LinkedList<>();
         data.add(new Multiplication(3, 4, 12, 3444));
         data.add(new Multiplication(2, 1, 2, 2476));
         data.add(new Multiplication(5, 7, 35, 8437));

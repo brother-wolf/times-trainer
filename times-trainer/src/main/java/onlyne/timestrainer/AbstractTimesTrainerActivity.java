@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 abstract class AbstractTimesTrainerActivity extends AppCompatActivity {
+    private String username;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -18,12 +19,15 @@ abstract class AbstractTimesTrainerActivity extends AppCompatActivity {
         return true;
     }
 
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
             case R.id.report:
                 Intent intent = new Intent(this, ReportActivity.class);
+                intent.putExtra(LoginScreenActivity.USERNAME, username);
                 startActivity(intent);
                 return true;
             case R.id.action_settings:
@@ -31,5 +35,13 @@ abstract class AbstractTimesTrainerActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

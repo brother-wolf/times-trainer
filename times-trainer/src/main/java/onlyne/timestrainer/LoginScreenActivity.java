@@ -48,6 +48,7 @@ public class LoginScreenActivity extends AbstractTimesTrainerActivity {
         }
         Intent intent = new Intent(this, MultiplicationActivity.class);
         intent.putExtra(USERNAME, username);
+        setUsername(username);
         startActivity(intent);
     }
 

@@ -34,7 +34,7 @@ class GraphData {
         }
     }
 
-    public GraphData tally(Queue<Multiplication> allMultiplications) {
+    public GraphData tally(List<Multiplication> allMultiplications) {
         for (Multiplication multiplication : allMultiplications) {
             tally(multiplication);
         }

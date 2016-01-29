@@ -25,7 +25,6 @@ public class MultiplicationActivity extends AbstractTimesTrainerActivity {
     private MultiplicationDataSource multiplicationDataSource;
     private int MILLI_SECOND_INTERVAL = 1000;
     private Handler timerHandler;
-    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +33,9 @@ public class MultiplicationActivity extends AbstractTimesTrainerActivity {
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         Bundle extras = getIntent().getExtras();
-        username = extras.getString(LoginScreenActivity.USERNAME);
+        setUsername(extras.getString(LoginScreenActivity.USERNAME));
         TextView nameTV = (TextView) findViewById(R.id.name);
-        nameTV.setText(username);
+        nameTV.setText(getUsername());
 
         multiplicationDataSource = new MultiplicationDataSource(this);
 
@@ -46,7 +45,7 @@ public class MultiplicationActivity extends AbstractTimesTrainerActivity {
             }
         });
 
-        List<Multiplication> savedMultiplications = multiplicationDataSource.getAllMultiplications(username);
+        List<Multiplication> savedMultiplications = multiplicationDataSource.getAllMultiplications(getUsername());
         multiplicationsQueue = new LinkedList<>();
         for (Multiplication multiplication : savedMultiplications) {
             multiplicationsQueue.add(multiplication);
@@ -146,7 +145,7 @@ public class MultiplicationActivity extends AbstractTimesTrainerActivity {
 
         Multiplication multiplication = new Multiplication(multiplicand, multiplier, answer, timeTakenInMillis);
         multiplicationsQueue.add(multiplication);
-        multiplicationDataSource.createMultiplication(multiplication, username);
+        multiplicationDataSource.createMultiplication(multiplication, getUsername());
     }
 
     private Integer getTextFieldAsInteger(int textFieldId) {
