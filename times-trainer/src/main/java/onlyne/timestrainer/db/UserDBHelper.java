@@ -13,10 +13,10 @@ public class UserDBHelper extends SQLiteOpenHelper {
     public static final String[] ALL_COLUMNS = {UserDBHelper.COLUMN_ID, UserDBHelper.COLUMN_USERNAME};
 
     private static final String DATABASE_NAME = "onlyne.multiplications.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     private static final String CREATE_USER_TABLE_QUERY = String.format(
-            "CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT NOT NULL);",
+            "CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT NOT NULL)",
             TABLE_USERS,
             COLUMN_ID,
             COLUMN_USERNAME);

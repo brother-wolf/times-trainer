@@ -25,11 +25,10 @@ public class MultiplicationDBHelper extends SQLiteOpenHelper {
     };
 
     private static final String DATABASE_NAME = "onlyne.multiplications.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
-    // Database creation sql statement
     private static final String CREATE_TABLE_MULTIPLICATIONS_QUERY = String.format(
-            "CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT NOT NULL, %s INTEGER NOT NULL, %s INTEGER NOT NULL, %s INTEGER NOT NULL, %s INTEGER NOT NULL);",
+            "CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT NOT NULL, %s INTEGER NOT NULL, %s INTEGER NOT NULL, %s INTEGER NOT NULL, %s INTEGER NOT NULL)",
             TABLE_MULTIPLICATIONS,
             COLUMN_ID,
             COLUMN_USERNAME,

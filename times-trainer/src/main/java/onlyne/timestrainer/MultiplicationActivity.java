@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -116,9 +117,16 @@ public class MultiplicationActivity extends AbstractTimesTrainerActivity {
     }
 
     private void doEvaluateAnswer() {
-        incrementAttempts();
-        storeAnswer();
-        displayNewQuestion();
+        EditText answerET = (EditText) findViewById(R.id.answer);
+        String sAnswer = answerET.getText().toString();
+
+
+        if (sAnswer.trim().isEmpty()) {
+            Toast.makeText(MultiplicationActivity.this, "Please enter an answer", Toast.LENGTH_SHORT).show();
+        } else {
+            storeAnswer(Integer.valueOf(sAnswer.trim()));
+            displayNewQuestion();
+        }
     }
 
     private void incrementAttempts() {
@@ -131,17 +139,17 @@ public class MultiplicationActivity extends AbstractTimesTrainerActivity {
         ((EditText) findViewById(R.id.answer)).setText("");
     }
 
-    private void storeAnswer() {
+    private void storeAnswer(int answer) {
         long timeTakenInMillis = now() - timerStart;
         int multiplicand = getTextFieldAsInteger(R.id.multiplicand);
         int multiplier = getTextFieldAsInteger(R.id.multiplier);
-        int answer = getTextFieldAsInteger(R.id.answer);
 
         if (multiplicand * multiplier == answer) {
             score++;
             TextView scoreTV = (TextView) findViewById(R.id.score);
             scoreTV.setText(Integer.toString(score));
         }
+        incrementAttempts();
 
         Multiplication multiplication = new Multiplication(multiplicand, multiplier, answer, timeTakenInMillis);
         multiplicationsQueue.add(multiplication);
