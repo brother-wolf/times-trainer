@@ -10,4 +10,10 @@ The features planned are:
 * Provide a login page
 * Store a [local] record of the answers given for each person
 * Provide reports showing how you've done
-
+	* Which multipliers are you getting correct verses wrong 
+	* Which multiplier are you taking longer over
+	* Reports should be time boxed to show only a given period
+* Questions asked should be random but weighted more heavily towards questions you are: 
+	* getting wrong
+	* spending longer answering
+	
